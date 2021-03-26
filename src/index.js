@@ -10,6 +10,7 @@ app.set('json spaces', 2);
 //Server middlewares
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(require('./routes/routes'));
 
 
 app.listen(app.get('port'), (err) => {
