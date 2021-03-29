@@ -81,25 +81,108 @@ function validateEmail(email) {
 	return re.test(String(email).toLowerCase());
 }
 
-router.get('/', (req, res) => {
-	res.send();
+router.get('/', async (req, res) => {
+	findAllUsers()
+		.then((users) => {
+			res.json(users);
+		})
+		.catch((err) => {
+			console.log(err);
+		})
 })
 
 
-router.get('/:id', (req, res) => {
-	res.json();
+router.get('/:id', async (req, res) => {
+	try {
+		const getUser = await findUserById(req.params.id);
+
+		if (getUser.length !== 0) {
+			res.json(getUser);
+		} else {
+			res.json({
+				code: 400,
+				msg: `The user doesn't exist :(`
+			})
+		}
+	} catch (err) {
+		console.log("We got an error: ", err);
+	}
 })
 
-router.post('/', (req, res) => {
-	res.json();
+router.post('/', async (req, res) => {
+	if (validateEmail(req.body.email)) {
+		try {
+			const getUser = await findUserByEmail(req.body.email);
+			if (getUser.length == 0) {
+				const user = await createUser(req.body.firstName, req.body.lastName, req.body.email)
+				res.json(user);
+			} else {
+				res.json({
+					code: 400,
+					msg: "Email is already token"
+				})
+			}
+		} catch (err) {
+			console.log("We got an error: ", err);
+		}
+	} else {
+		res.json({
+			code: 400,
+			msg: "Email is not valid, try again"
+		})
+	}
 })
 
-router.put('/', (req, res) => {
-	res.json();
+router.put('/:id', async (req, res) => {
+	const getUser = await findUserById(req.params.id);
+
+	if (validateEmail(req.body.email)) {
+
+		if (getUser.length !== 0) {
+			try {
+				await updateUser(req.body.firstName, req.body.lastName, req.body.email, req.params.id);
+
+				res.json({
+					code: 200,
+					msg: `The user was updated successfully :)`
+				})
+			} catch (err) {
+				console.log(err);
+			}
+		} else {
+			res.json({
+				code: 400,
+				msg: `The user doesn't exist :(`
+			})
+		}
+	} else {
+		res.json({
+			code: 400,
+			msg: `The email is not valid, try again`
+		})
+	}
 })
 
-router.delete('/', (req, res) => {
-	res.json();
+router.delete('/:id', async (req, res) => {
+	const getUser = await findUserById(req.params.id);
+
+	if (getUser.length !== 0) {
+		try {
+			await deleteUser(req.params.id);
+
+			res.json({
+				code: 200,
+				msg: `The user ${getUser[0].dataValues.email} was deleted successfully!`
+			})
+		} catch (err) {
+			console.log(err);
+		}
+	} else {
+		res.json({
+			code: 400,
+			msg: `The user doesn't exist :(`
+		})
+	}
 })
 
 module.exports = router;
