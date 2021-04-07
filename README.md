@@ -7,7 +7,7 @@ Este proyecto consiste en la creación de una api rest, en la cual se pueden rea
 _Que cosas necesitas para instalar el software y como instalarlas_
 
 ```
-Solo necesitas tener NodeJs y Mysql instalado para ejecutar la aplicación.
+Solo necesitas tener Docker para ejecutar la aplicación.
 ```
 
 ### Instalación 🔧
@@ -15,26 +15,11 @@ Solo necesitas tener NodeJs y Mysql instalado para ejecutar la aplicación.
 _Para ejecutar la aplicación se deberán ejecutar los siguientes pasos_
 
 _1. Clonar el repositorio_\
-_2. Instalar las dependencias del proyecto por medio de NodeJS_\
-_3. Crear una base de datos de prueba en tu entorno local llamada webapp_\
-_4. Ejecutar las migraciones del proyecto a la base de datos desde el proyecto_
-_5. Ejecutar la aplicación_
+_2. Dentro del directorio del proyecto ejecutar docker-compose build\
+_3. Una vez finalizado la ejecución del comando anterior, ejecutar docker-compose up\
+_4. Cuando los contenedores hayan iniciado, ejecutar el comando docker exec -it Apirest npx sequelize-cli db:migrate
+_5. Abrir tu navegador en la siguiente dirección: http://localhost:5000/_
 
-```
-git clone https://github.com/JhonathanPerez/api-rest-nodeJs.git
-```
-```
-Dentro de la carpeta del proyecto ejecutar el comando npm install
-```
-```
-Crear la base de datos en tu servidor de base de datos local, CREATE DATABASE IF NOT EXISTS webapp
-```
-```
-Ejecutar las migraciones de la base de datos npx sequelize-cli db:migrate
-```
-```
-Ejecutar la aplicación npm run dev
-```
 
 ## Expresiones de Gratitud 🎁
 
