@@ -27,7 +27,3 @@ _5. Abrir tu navegador en la siguiente dirección: http://localhost:5000 /_
 * Da las gracias públicamente 🤓.
 * etc.
 
-
-
----
-⌨️ con ❤️ por [Jhonathan Pérez Ortega](https://github.com/JhonathanPerez) 😊
